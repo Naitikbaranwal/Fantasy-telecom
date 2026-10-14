@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobiles – Fantasy Telecom | Buy Latest Smartphones</title>
+  <meta name="description" content="Browse latest smartphones from Apple, Samsung, OnePlus, Vivo, Realme and more at Fantasy Telecom. Best prices, genuine products.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="container">
+    <h1>📱 Mobiles</h1>
+    <p>Explore the latest smartphones from top brands</p>
+    <div class="breadcrumb">
+      <a href="/index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Mobiles</span>
+    </div>
+  </div>
+</div>
+
+<div class="products-page">
+  <div class="container">
+    <div class="products-page-layout" id="page-layout">
+
+      <!-- Filters Sidebar -->
+      <aside class="filters-sidebar">
+        <div class="filters-title">🎛️ Filters</div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Brand</div>
+          <div id="brand-filters">
+            <label class="filter-option"><input type="radio" name="brand" value=""> All Brands</label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Price Range</div>
+          <div class="price-inputs">
+            <input type="number" id="price-min" placeholder="Min ₹" min="0">
+            <input type="number" id="price-max" placeholder="Max ₹" min="0">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Availability</div>
+          <label class="filter-option"><input type="checkbox" id="filter-offer"> On Offer Only</label>
+          <label class="filter-option"><input type="checkbox" id="filter-featured"> Featured Only</label>
+        </div>
+
+        <button class="apply-filter-btn" onclick="applyFilters()">Apply Filters</button>
+        <button onclick="clearFilters()" style="width:100%;margin-top:8px;padding:8px;color:var(--gray-500);font-size:0.82rem">Clear All</button>
+      </aside>
+
+      <!-- Products Main -->
+      <div>
+        <div class="products-toolbar">
+          <div class="results-count">Showing <span id="result-count">...</span> products</div>
+          <div class="toolbar-right">
+            <select class="sort-select" id="sort-select" onchange="applyFilters()">
+              <option value="default">Sort: Default</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+              <option value="newest">Newest First</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+          <div class="spinner" style="grid-column:1/-1"></div>
+        </div>
+
+        <!-- Pagination -->
+        <div style="display:flex;justify-content:center;gap:8px;margin-top:32px" id="pagination"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="/js/components.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/products.js"></script>
+<script>
+  // Pass category from URL to products loader
+  document.addEventListener('DOMContentLoaded', () => {
+    initProductsPage('smartphones');
+  });
+</script>
+</body>
+</html>

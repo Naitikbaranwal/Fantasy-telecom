@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offers & Deals – Fantasy Telecom | Best Discounts on Mobiles</title>
+  <meta name="description" content="Best offers and discounts on smartphones and accessories at Fantasy Telecom Pratapgarh. Limited time deals, up to 40% off.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>🔥 Offers & Deals</h1>
+    <p>Limited time offers – grab the best deals now!</p>
+    <div class="breadcrumb">
+      <a href="/index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Offers</span>
+    </div>
+  </div>
+</div>
+
+<!-- Countdown Timer -->
+<div class="offer-timer">
+  <h2>⚡ Flash Sale Ends In:</h2>
+  <div class="timer-boxes">
+    <div class="timer-box"><span class="timer-num" id="timer-hours">00</span><span class="timer-label">Hours</span></div>
+    <div class="timer-box"><span class="timer-num" id="timer-mins">00</span><span class="timer-label">Mins</span></div>
+    <div class="timer-box"><span class="timer-num" id="timer-secs">00</span><span class="timer-label">Secs</span></div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">All Offers</h2>
+      <div class="results-count">Total: <span id="offer-count">...</span> deals</div>
+    </div>
+    <div class="products-grid" id="offers-grid">
+      <div class="spinner" style="grid-column:1/-1"></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="/js/components.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  // Countdown Timer – ends at midnight
+  function initTimer() {
+    const now = new Date();
+    const end = new Date(now);
+    end.setHours(23, 59, 59, 999);
+    function update() {
+      const diff = end - new Date();
+      if (diff <= 0) { initTimer(); return; }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('timer-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('timer-mins').textContent = String(m).padStart(2,'0');
+      document.getElementById('timer-secs').textContent = String(s).padStart(2,'0');
+    }
+    update();
+    setInterval(update, 1000);
+  }
+
+  async function loadOffers() {
+    const grid = document.getElementById('offers-grid');
+    const countEl = document.getElementById('offer-count');
+    try {
+      const res = await fetch('/api/offers');
+      const products = await res.json();
+      if (countEl) countEl.textContent = products.length;
+      grid.innerHTML = products.length
+        ? products.map(p => productCardHTML(p)).join('')
+        : '<div class="empty-state" style="grid-column:1/-1"><div class="icon">🏷️</div><h3>No offers right now</h3><p>Check back later for exciting deals!</p></div>';
+    } catch (e) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Failed to load offers</h3></div>';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTimer();
+    loadOffers();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy Telecom – Smart Phones, Accessories & More | Pratapgarh</title>
+  <meta name="description" content="Fantasy Telecom – Your trusted mobile store in Pratapgarh. Shop latest smartphones from Apple, Samsung, OnePlus, Vivo, Realme and premium accessories. Genuine products, best prices.">
+  <meta name="keywords" content="fantasy telecom, mobile shop pratapgarh, smartphones, accessories, apple, samsung, oneplus">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<!-- ═══ HERO CAROUSEL ═══ -->
+<section class="hero" id="home">
+  <div class="hero-carousel" id="hero-carousel">
+    <!-- Slides injected by JS -->
+    <div class="hero-slide active">
+      <div class="hero-content">
+        <div class="hero-badge">✦ Latest Smartphones • Original Products</div>
+        <h1 class="hero-title">Upgrade Your World<br>with Latest <span>Smartphones</span></h1>
+        <p class="hero-desc">Top Brands | Best Collection | Genuine Products<br>Visit Our Store - Fantasy Telecom</p>
+        <a href="/mobiles.html" class="btn btn-primary">Explore Mobiles →</a>
+      </div>
+      <div class="hero-image">
+        <img src="/images/hero_banner.jpg" alt="Latest Smartphones Collection at Fantasy Telecom" onerror="this.parentElement.innerHTML='<div class=hero-image-placeholder>📱</div>'">
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-content">
+        <div class="hero-badge">✦ Premium Quality • Best Brands</div>
+        <h1 class="hero-title">Premium <span>Accessories</span><br>For Every Need</h1>
+        <p class="hero-desc">Cases, Chargers, Earbuds, Power Banks<br>and More... All at Best Prices!</p>
+        <a href="/accessories.html" class="btn btn-primary">Explore Accessories →</a>
+      </div>
+      <div class="hero-image">
+        <img src="/images/banner2_accessories.jpg" alt="Premium Mobile Accessories" onerror="this.parentElement.innerHTML='<div class=hero-image-placeholder>🎧</div>'">
+      </div>
+    </div>
+  </div>
+  <button class="carousel-btn carousel-prev" id="carousel-prev">‹</button>
+  <button class="carousel-btn carousel-next" id="carousel-next">›</button>
+  <div class="carousel-dots" id="carousel-dots"></div>
+</section>
+
+<!-- ═══ CATEGORIES ═══ -->
+<section class="categories">
+  <div class="container">
+    <div class="categories-grid" id="categories-grid">
+      <!-- Loading skeleton -->
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">📱</div>
+        <div class="category-name">Smartphones</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">⌚</div>
+        <div class="category-name">Smartwatches</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🎧</div>
+        <div class="category-name">Earbuds & Earphones</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🔌</div>
+        <div class="category-name">Mobile Accessories</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">📦</div>
+        <div class="category-name">Cases & Covers</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🔋</div>
+        <div class="category-name">Chargers & Cables</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🔋</div>
+        <div class="category-name">Power Banks</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🛡️</div>
+        <div class="category-name">Screen Guards</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🔊</div>
+        <div class="category-name">Speakers</div>
+      </div>
+      <div class="category-card" style="min-width:100px">
+        <div class="category-icon">🔧</div>
+        <div class="category-name">Service & Repair</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COLLECTION BANNERS ═══ -->
+<section class="collection-banners">
+  <div class="container">
+    <div class="collection-grid">
+      <div class="collection-card collection-card-1" onclick="window.location.href='/mobiles.html'">
+        <div class="collection-content">
+          <h3>Latest Smartphone Collection</h3>
+          <p>Explore Latest Models from Top Brands</p>
+          <a href="/mobiles.html" class="btn btn-outline" style="width:fit-content;color:white;border-color:rgba(255,255,255,0.4)">View All Mobiles →</a>
+        </div>
+      </div>
+      <div class="collection-card collection-card-2" onclick="window.location.href='/accessories.html'">
+        <div class="collection-content">
+          <h3>Premium Accessories</h3>
+          <p>Cases, Chargers, Earbuds, Power Banks and More...</p>
+          <a href="/accessories.html" class="btn btn-dark" style="width:fit-content">Explore Accessories →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POPULAR BRANDS ═══ -->
+<section class="brands section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Popular Brands</h2>
+      <a href="/brands.html" class="view-all-link">View All Brands →</a>
+    </div>
+    <div class="brands-grid" id="brands-grid">
+      <!-- Loaded by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED PRODUCTS ═══ -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Featured Products</h2>
+      <a href="/mobiles.html" class="view-all-link">View All →</a>
+    </div>
+    <div class="products-slider-wrapper">
+      <div class="products-slider" id="featured-products">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOT OFFERS ═══ -->
+<section class="section" style="padding-top:0;background:var(--gray-50)">
+  <div class="container" style="padding-top:40px">
+    <div class="section-header">
+      <h2 class="section-title">🔥 Hot Offers</h2>
+      <a href="/offers.html" class="view-all-link">View All Offers →</a>
+    </div>
+    <div class="products-slider-wrapper">
+      <div class="products-slider" id="offer-products">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT / WHY / LOCATION ═══ -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-block">
+        <h3>About Fantasy Telecom</h3>
+        <p>Fantasy Telecom is your trusted mobile shop in Loniyamau Babuganj Antu, Pratapgarh. We provide a wide range of smartphones, accessories and genuine products from top brands. Our goal is to give the best service and latest technology to our customers.</p>
+        <a href="/about.html" class="btn btn-outline" style="margin-top:16px;font-size:0.85rem">Read More →</a>
+      </div>
+
+      <div class="about-block">
+        <h3>Why Choose Us?</h3>
+        <div class="why-icons">
+          <div class="why-item">
+            <div class="why-icon">🛡️</div>
+            <div class="why-label">100% Genuine Products</div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon">🏷️</div>
+            <div class="why-label">Wide Brand Collection</div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon">👥</div>
+            <div class="why-label">Expert Guidance</div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon">⚙️</div>
+            <div class="why-label">After Sales Support</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-block location-block">
+        <h3>Our Location</h3>
+        <div class="location-info">
+          <div class="location-row">
+            <span class="location-icon">📍</span>
+            <span>Loniyamau Babuganj Antu, Pratapgarh 203501</span>
+          </div>
+          <div class="location-row">
+            <span class="location-icon">📞</span>
+            <div><a href="tel:9140447744">9140447744</a>, <a href="tel:9140093700">9140093700</a></div>
+          </div>
+          <div class="location-row">
+            <span class="location-icon">🕐</span>
+            <span>9:00 AM – 9:00 PM</span>
+          </div>
+        </div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14387.123!2d81.96!3d25.89!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDUzJzI0LjAiTiA4McKwNTcnMzYuMCJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+            width="100%" height="140" style="border:0;border-radius:10px" allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+        <a href="https://maps.google.com/?q=Loniyamau+Babuganj+Antu+Pratapgarh" target="_blank" class="btn btn-primary" style="margin-top:12px;font-size:0.82rem;width:100%;justify-content:center">🗺️ View on Google Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="/js/components.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/home.js"></script>
+</body>
+</html>

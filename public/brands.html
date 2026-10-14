@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brands – Fantasy Telecom | Top Mobile Brands</title>
+  <meta name="description" content="Shop by brand at Fantasy Telecom. Apple, Samsung, OnePlus, Vivo, Realme, OPPO, Xiaomi, Motorola, iQOO, POCO and more.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>🏷️ Popular Brands</h1>
+    <p>Shop from your favourite brand</p>
+    <div class="breadcrumb">
+      <a href="/index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Brands</span>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:20px" id="brands-full-grid">
+      <div class="spinner" style="grid-column:1/-1"></div>
+    </div>
+
+    <!-- Brand products section -->
+    <div id="brand-products-section" style="display:none;margin-top:48px">
+      <div class="section-header">
+        <h2 class="section-title" id="brand-products-title">Brand Products</h2>
+        <button onclick="closeBrandProducts()" style="color:var(--gray-500);font-size:0.85rem">✕ Close</button>
+      </div>
+      <div class="products-grid" id="brand-products-grid"></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="/js/components.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  async function loadBrands() {
+    const grid = document.getElementById('brands-full-grid');
+    try {
+      const res = await fetch('/api/brands');
+      const brands = await res.json();
+      grid.innerHTML = brands.map(b => `
+        <div class="brand-card brand-${b.slug}" style="min-width:unset;padding:28px 20px" onclick="loadBrandProducts('${b.slug}','${b.name}')">
+          <div class="brand-logo" style="height:50px">
+            <span class="brand-logo-text" style="color:${b.logo_color};font-size:1.3rem">${b.logo_text || b.name}</span>
+          </div>
+          <div class="brand-name-small" style="font-size:0.78rem;margin-top:4px">${b.name}</div>
+          <div style="font-size:0.7rem;color:var(--primary);margin-top:6px;font-weight:600">${b.product_count} products</div>
+        </div>`).join('');
+    } catch (e) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Failed to load brands</h3></div>';
+    }
+  }
+
+  async function loadBrandProducts(slug, name) {
+    const section = document.getElementById('brand-products-section');
+    const grid = document.getElementById('brand-products-grid');
+    const title = document.getElementById('brand-products-title');
+    title.textContent = name + ' Products';
+    section.style.display = 'block';
+    grid.innerHTML = '<div class="spinner" style="grid-column:1/-1"></div>';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    try {
+      const res = await fetch(`/api/products?brand=${slug}&limit=20`);
+      const data = await res.json();
+      const products = data.products || [];
+      grid.innerHTML = products.length
+        ? products.map(p => productCardHTML(p)).join('')
+        : '<div class="empty-state" style="grid-column:1/-1"><div class="icon">📦</div><h3>No products for this brand</h3></div>';
+    } catch (e) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Failed to load</h3></div>';
+    }
+  }
+
+  function closeBrandProducts() {
+    document.getElementById('brand-products-section').style.display = 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', loadBrands);
+</script>
+</body>
+</html>

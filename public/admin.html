@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel – Fantasy Telecom</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="admin-wrapper">
+
+  <!-- Admin Header -->
+  <div class="admin-header">
+    <div class="container">
+      <div class="admin-title">⚙️ Fantasy Telecom – Admin Panel</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="/index.html" class="btn" style="background:rgba(255,255,255,0.1);color:white;font-size:0.82rem;padding:8px 16px">🏠 View Site</a>
+        <span style="color:rgba(255,255,255,0.4);font-size:0.78rem" id="admin-time"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Main -->
+  <div class="admin-main">
+    <div class="container">
+
+      <!-- Stats -->
+      <div class="admin-stats" id="admin-stats">
+        <div class="stat-card"><div class="stat-number">…</div><div class="stat-label">Total Products</div></div>
+        <div class="stat-card"><div class="stat-number">…</div><div class="stat-label">Brands</div></div>
+        <div class="stat-card"><div class="stat-number">…</div><div class="stat-label">Featured</div></div>
+        <div class="stat-card"><div class="stat-number">…</div><div class="stat-label">On Offer</div></div>
+        <div class="stat-card"><div class="stat-number">…</div><div class="stat-label">Messages</div></div>
+        <div class="stat-card"><div class="stat-number">…</div><div class="stat-label">Unread</div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchTab('products', this)">📱 Products</button>
+        <button class="admin-tab" onclick="switchTab('contacts', this)">📨 Messages</button>
+        <button class="admin-tab" onclick="switchTab('brands', this)">🏷️ Brands</button>
+      </div>
+
+      <!-- Products Panel -->
+      <div class="admin-panel active" id="panel-products">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">All Products</span>
+            <button class="btn btn-primary" style="font-size:0.82rem;padding:8px 16px" onclick="openAddProduct()">+ Add Product</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-table" id="products-table">
+              <thead>
+                <tr>
+                  <th>ID</th><th>Name</th><th>Brand</th><th>Category</th>
+                  <th>Price</th><th>Stock</th><th>Featured</th><th>Offer</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-tbody">
+                <tr><td colspan="9" style="text-align:center;padding:40px"><div class="spinner" style="margin:auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contacts Panel -->
+      <div class="admin-panel" id="panel-contacts">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">Customer Messages</span>
+            <span id="unread-badge" style="background:var(--danger);color:white;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700"></span>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th></tr>
+              </thead>
+              <tbody id="contacts-tbody">
+                <tr><td colspan="8" style="text-align:center;padding:40px"><div class="spinner" style="margin:auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brands Panel -->
+      <div class="admin-panel" id="panel-brands">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">All Brands</span>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Slug</th><th>Logo Text</th><th>Products</th></tr>
+              </thead>
+              <tbody id="brands-tbody">
+                <tr><td colspan="5" style="text-align:center;padding:40px"><div class="spinner" style="margin:auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Product Modal -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modal-title">Add New Product</h3>
+    <form id="product-form" onsubmit="saveProduct(event)">
+      <input type="hidden" id="product-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Product Name *</label>
+          <input type="text" id="p-name" class="form-control" required placeholder="e.g. iPhone 15 Pro">
+        </div>
+        <div class="form-group">
+          <label>Brand</label>
+          <input type="text" id="p-brand" class="form-control" placeholder="e.g. Apple">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="p-category" class="form-control">
+            <option value="">Select Category</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Brand (from list)</label>
+          <select id="p-brand-id" class="form-control">
+            <option value="">Select Brand</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Price (₹) *</label>
+          <input type="number" id="p-price" class="form-control" required placeholder="e.g. 69999">
+        </div>
+        <div class="form-group">
+          <label>Original Price (₹)</label>
+          <input type="number" id="p-original-price" class="form-control" placeholder="e.g. 74999">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Discount %</label>
+          <input type="number" id="p-discount" class="form-control" placeholder="e.g. 10" min="0" max="100">
+        </div>
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="number" id="p-stock" class="form-control" value="100" min="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="p-desc" class="form-control" rows="3" placeholder="Product description..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Image Filename</label>
+        <input type="text" id="p-image" class="form-control" placeholder="e.g. iphone15pro.jpg">
+      </div>
+      <div class="form-row" style="margin-bottom:20px">
+        <label class="filter-option" style="gap:8px">
+          <input type="checkbox" id="p-featured"> Featured Product
+        </label>
+        <label class="filter-option" style="gap:8px">
+          <input type="checkbox" id="p-offer"> On Offer
+        </label>
+      </div>
+      <button type="submit" class="submit-btn" id="save-product-btn">💾 Save Product</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Live time
+  setInterval(() => {
+    const el = document.getElementById('admin-time');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-IN');
+  }, 1000);
+
+  // Tab switching
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById(`panel-${tab}`).classList.add('active');
+    btn.classList.add('active');
+    if (tab === 'contacts') loadContacts();
+    if (tab === 'brands') loadBrandsTable();
+  }
+
+  // Format price
+  function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+
+  // Load Stats
+  async function loadStats() {
+    try {
+      const res = await fetch('/api/admin/stats');
+      const s = await res.json();
+      const cards = document.querySelectorAll('.stat-card .stat-number');
+      cards[0].textContent = s.totalProducts;
+      cards[1].textContent = s.totalBrands;
+      cards[2].textContent = s.featuredProducts;
+      cards[3].textContent = s.offerProducts;
+      cards[4].textContent = s.totalContacts;
+      cards[5].textContent = s.unreadContacts;
+      const badge = document.getElementById('unread-badge');
+      if (s.unreadContacts > 0) badge.textContent = s.unreadContacts + ' unread';
+    } catch (e) {}
+  }
+
+  // Load Products
+  async function loadProducts() {
+    const tbody = document.getElementById('products-tbody');
+    try {
+      const res = await fetch('/api/products?limit=200');
+      const data = await res.json();
+      const products = data.products || [];
+      tbody.innerHTML = products.map(p => `
+        <tr>
+          <td>#${p.id}</td>
+          <td><strong>${p.name}</strong></td>
+          <td>${p.brand || '–'}</td>
+          <td>${p.category_name || '–'}</td>
+          <td>${fmt(p.price)}</td>
+          <td>${p.stock}</td>
+          <td>${p.is_featured ? '✅' : '–'}</td>
+          <td>${p.is_on_offer ? '<span class="badge badge-offer">SALE</span>' : '–'}</td>
+          <td style="display:flex;gap:6px">
+            <button class="admin-btn admin-btn-edit" onclick="editProduct(${p.id})">✏️ Edit</button>
+            <button class="admin-btn admin-btn-delete" onclick="deleteProduct(${p.id},'${p.name.replace(/'/g,"\\'")}')">🗑️ Del</button>
+          </td>
+        </tr>`).join('');
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--danger)">Failed to load products. Is the server running?</td></tr>';
+    }
+  }
+
+  // Load Contacts
+  async function loadContacts() {
+    const tbody = document.getElementById('contacts-tbody');
+    try {
+      const res = await fetch('/api/admin/contacts');
+      const contacts = await res.json();
+      tbody.innerHTML = contacts.map(c => `
+        <tr style="${!c.is_read ? 'background:rgba(255,107,0,0.04);font-weight:500' : ''}">
+          <td>#${c.id}</td>
+          <td>${c.name}</td>
+          <td><a href="tel:${c.phone}">${c.phone || '–'}</a></td>
+          <td>${c.email || '–'}</td>
+          <td>${c.subject || '–'}</td>
+          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.message}">${c.message}</td>
+          <td style="font-size:0.75rem">${new Date(c.created_at).toLocaleString('en-IN')}</td>
+          <td>
+            ${c.is_read
+              ? '<span style="color:var(--success);font-size:0.78rem">✓ Read</span>'
+              : `<button class="admin-btn admin-btn-edit" onclick="markRead(${c.id},this)">Mark Read</button>`
+            }
+          </td>
+        </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray-400)">No messages yet</td></tr>';
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--danger)">Failed to load</td></tr>';
+    }
+  }
+
+  // Load Brands Table
+  async function loadBrandsTable() {
+    const tbody = document.getElementById('brands-tbody');
+    try {
+      const res = await fetch('/api/brands');
+      const brands = await res.json();
+      tbody.innerHTML = brands.map(b => `
+        <tr>
+          <td>#${b.id}</td>
+          <td><strong>${b.name}</strong></td>
+          <td>${b.slug}</td>
+          <td><span style="color:${b.logo_color};font-weight:700">${b.logo_text || b.name}</span></td>
+          <td>${b.product_count} products</td>
+        </tr>`).join('');
+    } catch (e) {}
+  }
+
+  // Mark contact as read
+  async function markRead(id, btn) {
+    await fetch(`/api/admin/contacts/${id}/read`, { method: 'PUT' });
+    btn.parentElement.innerHTML = '<span style="color:var(--success);font-size:0.78rem">✓ Read</span>';
+    btn.closest('tr').style.background = '';
+    btn.closest('tr').style.fontWeight = '';
+    loadStats();
+  }
+
+  // Add Product Modal
+  let categories = [], brands = [];
+  async function openAddProduct() {
+    if (!categories.length) {
+      const [catRes, brandRes] = await Promise.all([fetch('/api/categories'), fetch('/api/brands')]);
+      categories = await catRes.json();
+      brands = await brandRes.json();
+      document.getElementById('p-category').innerHTML = '<option value="">Select Category</option>' +
+        categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      document.getElementById('p-brand-id').innerHTML = '<option value="">Select Brand</option>' +
+        brands.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+    }
+    document.getElementById('modal-title').textContent = 'Add New Product';
+    document.getElementById('product-id').value = '';
+    document.getElementById('product-form').reset();
+    document.getElementById('product-modal').classList.add('open');
+  }
+
+  async function editProduct(id) {
+    await openAddProduct();
+    try {
+      const res = await fetch(`/api/products/${id}`);
+      const p = await res.json();
+      document.getElementById('modal-title').textContent = 'Edit Product';
+      document.getElementById('product-id').value = p.id;
+      document.getElementById('p-name').value = p.name;
+      document.getElementById('p-brand').value = p.brand || '';
+      document.getElementById('p-price').value = p.price;
+      document.getElementById('p-original-price').value = p.original_price || '';
+      document.getElementById('p-discount').value = p.discount_percent || 0;
+      document.getElementById('p-stock').value = p.stock || 100;
+      document.getElementById('p-desc').value = p.description || '';
+      document.getElementById('p-image').value = p.image || '';
+      document.getElementById('p-featured').checked = !!p.is_featured;
+      document.getElementById('p-offer').checked = !!p.is_on_offer;
+      document.getElementById('p-category').value = p.category_id || '';
+      document.getElementById('p-brand-id').value = p.brand_id || '';
+    } catch (e) { alert('Failed to load product'); }
+  }
+
+  async function saveProduct(e) {
+    e.preventDefault();
+    const id = document.getElementById('product-id').value;
+    const body = {
+      name: document.getElementById('p-name').value,
+      brand: document.getElementById('p-brand').value,
+      brand_id: document.getElementById('p-brand-id').value || null,
+      category_id: document.getElementById('p-category').value || null,
+      price: document.getElementById('p-price').value,
+      original_price: document.getElementById('p-original-price').value || null,
+      discount_percent: document.getElementById('p-discount').value || 0,
+      stock: document.getElementById('p-stock').value || 100,
+      description: document.getElementById('p-desc').value,
+      image: document.getElementById('p-image').value || 'default.jpg',
+      is_featured: document.getElementById('p-featured').checked,
+      is_on_offer: document.getElementById('p-offer').checked,
+      rating: 4.5
+    };
+    const btn = document.getElementById('save-product-btn');
+    btn.textContent = '⏳ Saving...';
+    btn.disabled = true;
+
+    try {
+      const url = id ? `/api/admin/products/${id}` : '/api/admin/products';
+      const method = id ? 'PUT' : 'POST';
+      const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const data = await res.json();
+      if (data.success) {
+        closeModal();
+        await loadProducts();
+        await loadStats();
+        alert(id ? '✅ Product updated!' : '✅ Product added!');
+      }
+    } catch (err) { alert('Error saving product'); }
+
+    btn.textContent = '💾 Save Product';
+    btn.disabled = false;
+  }
+
+  async function deleteProduct(id, name) {
+    if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+    try {
+      await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
+      await loadProducts();
+      await loadStats();
+      alert('✅ Product deleted!');
+    } catch (e) { alert('Error deleting product'); }
+  }
+
+  function closeModal() {
+    document.getElementById('product-modal').classList.remove('open');
+  }
+
+  // Close modal on overlay click
+  document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Init
+  loadStats();
+  loadProducts();
+</script>
+</body>
+</html>

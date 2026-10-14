@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessories – Fantasy Telecom | Earbuds, Cases, Chargers & More</title>
+  <meta name="description" content="Shop premium mobile accessories at Fantasy Telecom – earbuds, smartwatches, cases, chargers, power banks, screen guards and speakers.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>🔌 Accessories</h1>
+    <p>Premium accessories for your device</p>
+    <div class="breadcrumb">
+      <a href="/index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Accessories</span>
+    </div>
+  </div>
+</div>
+
+<!-- Category Tabs -->
+<div style="background:white;border-bottom:1px solid var(--gray-100);padding:16px 0;position:sticky;top:72px;z-index:100">
+  <div class="container">
+    <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+      <button class="admin-tab active" onclick="filterByCategory('all', this)">All</button>
+      <button class="admin-tab" onclick="filterByCategory('earbuds', this)">🎧 Earbuds</button>
+      <button class="admin-tab" onclick="filterByCategory('smartwatches', this)">⌚ Smartwatches</button>
+      <button class="admin-tab" onclick="filterByCategory('cases', this)">📦 Cases & Covers</button>
+      <button class="admin-tab" onclick="filterByCategory('chargers', this)">🔋 Chargers</button>
+      <button class="admin-tab" onclick="filterByCategory('powerbanks', this)">🔋 Power Banks</button>
+      <button class="admin-tab" onclick="filterByCategory('screenguards', this)">🛡️ Screen Guards</button>
+      <button class="admin-tab" onclick="filterByCategory('speakers', this)">🔊 Speakers</button>
+    </div>
+  </div>
+</div>
+
+<div class="products-page" style="padding:40px 0">
+  <div class="container">
+    <div class="products-toolbar" style="margin-bottom:24px">
+      <div class="results-count">Showing <span id="result-count">...</span> products</div>
+      <div class="toolbar-right">
+        <select class="sort-select" id="sort-select" onchange="loadAccessories()">
+          <option value="default">Sort: Default</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+    </div>
+    <div class="products-grid" id="products-grid">
+      <div class="spinner" style="grid-column:1/-1"></div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="/js/components.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/products.js"></script>
+<script>
+  let currentAccCat = 'all';
+
+  function filterByCategory(cat, btn) {
+    currentAccCat = cat;
+    document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadAccessories();
+  }
+
+  async function loadAccessories() {
+    const grid = document.getElementById('products-grid');
+    const countEl = document.getElementById('result-count');
+    grid.innerHTML = '<div class="spinner" style="grid-column:1/-1"></div>';
+    try {
+      // Accessories = everything NOT smartphones
+      let url = '/api/products?limit=50';
+      if (currentAccCat !== 'all') url += `&category=${currentAccCat}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      let products = data.products || [];
+      // Exclude smartphones if "all"
+      if (currentAccCat === 'all') {
+        products = products.filter(p => p.category_slug !== 'smartphones');
+      }
+      // Sort
+      const sort = document.getElementById('sort-select')?.value;
+      if (sort === 'price-asc') products.sort((a,b) => a.price - b.price);
+      if (sort === 'price-desc') products.sort((a,b) => b.price - a.price);
+      if (sort === 'rating') products.sort((a,b) => (b.rating||0) - (a.rating||0));
+
+      countEl.textContent = products.length;
+      grid.innerHTML = products.length
+        ? products.map(p => productCardHTML(p)).join('')
+        : '<div class="empty-state" style="grid-column:1/-1"><div class="icon">🔌</div><h3>No accessories found</h3></div>';
+    } catch (e) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Failed to load</h3><p>Make sure the server is running</p></div>';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadAccessories);
+</script>
+</body>
+</html>
